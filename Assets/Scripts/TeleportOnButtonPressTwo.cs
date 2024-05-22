@@ -14,8 +14,16 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     [SerializeField]
     GameObject Rightcontroller;
 
-    [SerializeField]
-    GameObject effectPrefab;  // 출력할 이펙트 프리팹
+    private GameObject effectPrefab_1;  // 출력할 이펙트 프리팹
+    private GameObject effectPrefab_2;
+    private GameObject effectPrefab_3;
+    private GameObject effectPrefab_4;
+    private GameObject effectPrefab_5;
+    private GameObject effectPrefab_6;
+    private GameObject effectPrefab_7;
+    private GameObject effectPrefab_8;
+    private GameObject effectPrefab_9;
+    private GameObject effectPrefab_10;
 
     public List<int> magicList = new List<int>();
     private int MaxNum = 3;
@@ -48,6 +56,18 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         magicList.Add(0);
         magicList.Add(0);
         magicList.Add(0);
+
+        // 프리팹 로드
+        effectPrefab_1 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane");
+        effectPrefab_2 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_2");
+        effectPrefab_3 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_3");
+        effectPrefab_4 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_4");
+        effectPrefab_5 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_5");
+        effectPrefab_6 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_6");
+        effectPrefab_7 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_7");
+        effectPrefab_8 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_8");
+        effectPrefab_9 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_9");
+        effectPrefab_10 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_10");
     }
 
     void Update()
@@ -124,11 +144,52 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     void TriggerPressed()
     {
-        if (magicID == 1) // [0,0,1]일 때의 magicID는 1임
+        if (magicID >= 1 && magicID <= 10)
         {
-            Instantiate(effectPrefab, transform.position, transform.rotation);
+            int index1 = (magicID - 1) / 3;
+            int index2 = (magicID - 1) % 3;
+
+            GameObject VFX = null;
+            switch (index1)
+            {
+                case 0:
+                    VFX = Instantiate(effectPrefab_1, transform.position, transform.rotation);
+                    break;
+                case 1:
+                    VFX = Instantiate(effectPrefab_2, transform.position, transform.rotation);
+                    break;
+                case 2:
+                    VFX = Instantiate(effectPrefab_3, transform.position, transform.rotation);
+                    break;
+                case 3:
+                    VFX = Instantiate(effectPrefab_4, transform.position, transform.rotation);
+                    break;
+                case 4:
+                    VFX = Instantiate(effectPrefab_5, transform.position, transform.rotation);
+                    break;
+                case 5:
+                    VFX = Instantiate(effectPrefab_6, transform.position, transform.rotation);
+                    break;
+                case 6:
+                    VFX = Instantiate(effectPrefab_7, transform.position, transform.rotation);
+                    break;
+                case 7:
+                    VFX = Instantiate(effectPrefab_8, transform.position, transform.rotation);
+                    break;
+                case 8:
+                    VFX = Instantiate(effectPrefab_9, transform.position, transform.rotation);
+                    break;
+                case 9:
+                    VFX = Instantiate(effectPrefab_10, transform.position, transform.rotation);
+                    break;
+
+            }
+
+            if (VFX != null)
+            {
+                Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
+            }
         }
-        // 다른 magicID 값에 따른 다른 이펙트를 추가할 수 있음
     }
 
     public int IDProvider()
