@@ -5,8 +5,8 @@ using System.Collections;
 
 public class TeleportOnButtonPressThree : MonoBehaviour
 {
-    public XRNode inputSource;
-    private InputDevice device;
+    InputDevice left;
+    InputDevice right;
     private CharacterController characterController;
 
     private int buttonSequenceIndex = 0;
@@ -17,17 +17,15 @@ public class TeleportOnButtonPressThree : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        device = InputDevices.GetDeviceAtXRNode(inputSource);
+       
     }
 
     void Update()
     {
-        bool buttonA = false;
-        bool buttonB = false;
-        bool buttonX = false;
-        bool buttonY = false;
+        right = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
 
-        if (device.TryGetFeatureValue(CommonUsages.primaryButton, out buttonA) && buttonA)
+        right.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonA);
+        if (primaryButtonA)
         {
             if (CheckSequence(buttonSequenceIndex == 0))
                 buttonSequenceIndex++;
@@ -35,7 +33,9 @@ public class TeleportOnButtonPressThree : MonoBehaviour
                 ResetSequence();
         }
 
-        if (device.TryGetFeatureValue(CommonUsages.secondaryButton, out buttonB) && buttonB)
+        
+        right.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonB);
+        if (secondaryButtonB)
         {
             if (CheckSequence(buttonSequenceIndex == 1))
                 buttonSequenceIndex++;
@@ -43,18 +43,22 @@ public class TeleportOnButtonPressThree : MonoBehaviour
                 ResetSequence();
         }
 
-        if (device.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out buttonX) && buttonX)
+        left = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+      
+        left.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonX);
+        if (primaryButtonX)
         {
             if (CheckSequence(buttonSequenceIndex == 2))
                 buttonSequenceIndex++;
             else
                 ResetSequence();
         }
-
-        if (device.TryGetFeatureValue(CommonUsages.secondary2DAxisClick, out buttonY) && buttonY)
+        left.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonY);
+        if (secondaryButtonY)
         {
             TeleportTo(new Vector3(-10, 10, 0));
         }
+
 
         if (sequenceActive)
         {
@@ -65,7 +69,7 @@ public class TeleportOnButtonPressThree : MonoBehaviour
             }
         }
 
-        if (buttonA && buttonX)
+        if (primaryButtonA && primaryButtonX)
         {
             TeleportTo(new Vector3(10, 10, 0));
         }
