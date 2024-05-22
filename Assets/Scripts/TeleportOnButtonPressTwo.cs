@@ -6,17 +6,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class TeleportOnButtonPressTwo : MonoBehaviour
 {
-            //{"triggerButton", CommonUsages.triggerButton }
-            //{ "thumbrest", CommonUsages.thumbrest }
-            //{ "primary2DAxisClick", CommonUsages.primary2DAxisClick }
-            //{ "primary2DAxisTouch", CommonUsages.primary2DAxisTouch }
-            //{ "menuButton", CommonUsages.menuButton }
-            //{ "gripButton", CommonUsages.gripButton }
-            //{ "secondaryButton", CommonUsages.secondaryButton }
-            //{ "secondaryTouch", CommonUsages.secondaryTouch }
-            //{ "primaryButton", CommonUsages.primaryButton }
-            //{ "primaryTouch", CommonUsages.primaryTouch }
-
     InputDevice left;
     InputDevice right;
 
@@ -25,16 +14,19 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     [SerializeField]
     GameObject Rightcontroller;
 
+    [SerializeField]
+    GameObject effectPrefab;  // 출력할 이펙트 프리팹
+
     public List<int> magicList = new List<int>();
     private int MaxNum = 3;
 
-    public int magicID = 0; //  마법의 고유 번호 
+    public int magicID = 0; // 마법의 고유 번호 
 
     private bool isButtonA = false;
     private bool isButtonB = false;
     private bool isButtonX = false;
     private bool isButtonY = false;
-    
+
     private bool prevButtonA;
     private bool prevButtonB;
     private bool prevButtonX;
@@ -51,12 +43,16 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         prevButtonB = false;
         prevButtonX = false;
         prevButtonY = false;
+
+        // 초기 magicList를 [0,0,0]으로 설정
+        magicList.Add(0);
+        magicList.Add(0);
+        magicList.Add(0);
     }
 
     void Update()
     {
         ButtonInput();
-
     }
 
     void ButtonInput()
@@ -64,9 +60,9 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         // 좌우 디바이스 인식
         right = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
         left = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
-        // 순차적으로 A,B,X,Y의 버튼 인식 및 작동
-        right.TryGetFeatureValue(CommonUsages.primaryButton, out isButtonA);
 
+        // 순차적으로 A, B, X, Y의 버튼 인식 및 작동
+        right.TryGetFeatureValue(CommonUsages.primaryButton, out isButtonA);
         if (isButtonA && !prevButtonA)
         {
             AddInput(BtnNumA);
@@ -94,12 +90,11 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         }
         prevButtonY = isButtonY;
 
-
         right.TryGetFeatureValue(CommonUsages.triggerButton, out bool isRTriggerPressed);
         left.TryGetFeatureValue(CommonUsages.triggerButton, out bool isLTriggerPressed);
         if (isRTriggerPressed || isLTriggerPressed)
         {
-            // 트리거를 누르면 magicID에 해당하는 마법 효과 또는 투사체 발사 함수 실행 
+            TriggerPressed();
         }
     }
 
@@ -117,7 +112,7 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     }
 
     // 리스트의 숫자를 정수형으로 변경
-    int ConvertListToInt(List<int> list)    
+    int ConvertListToInt(List<int> list)
     {
         int result = 0;
         foreach (int num in list)
@@ -127,9 +122,17 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         return result;
     }
 
+    void TriggerPressed()
+    {
+        if (magicID == 1) // [0,0,1]일 때의 magicID는 1임
+        {
+            Instantiate(effectPrefab, transform.position, transform.rotation);
+        }
+        // 다른 magicID 값에 따른 다른 이펙트를 추가할 수 있음
+    }
+
     public int IDProvider()
     {
         return magicID;
     }
-    
 }
