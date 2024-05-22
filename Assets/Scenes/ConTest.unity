@@ -142,7 +142,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Leftcontroller: {fileID: 0}
   Rightcontroller: {fileID: 0}
-  effectPrefab: {fileID: 2186942109981119635, guid: c5f02a16d58781e42a3f6c5264d52e90, type: 3}
   magicList: 
   magicID: 0
 --- !u!1 &299639867
