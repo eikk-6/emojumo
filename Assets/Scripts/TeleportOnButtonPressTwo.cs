@@ -4,48 +4,117 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class TeleportOnButtonPressTwo : MonoBehaviour
 {
-    public XRNode inputSource;
-    private InputDevice device;
+            //{"triggerButton", CommonUsages.triggerButton }
+            //{ "thumbrest", CommonUsages.thumbrest }
+            //{ "primary2DAxisClick", CommonUsages.primary2DAxisClick }
+            //{ "primary2DAxisTouch", CommonUsages.primary2DAxisTouch }
+            //{ "menuButton", CommonUsages.menuButton }
+            //{ "gripButton", CommonUsages.gripButton }
+            //{ "secondaryButton", CommonUsages.secondaryButton }
+            //{ "secondaryTouch", CommonUsages.secondaryTouch }
+            //{ "primaryButton", CommonUsages.primaryButton }
+            //{ "primaryTouch", CommonUsages.primaryTouch }
+
+
+
+
+
+
+
+
+
     private CharacterController characterController;
+
+    InputDevice left;
+    InputDevice right;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        device = InputDevices.GetDeviceAtXRNode(inputSource);
     }
+
 
     void Update()
     {
-        bool buttonA = false;
-        bool buttonB = false;
-        bool buttonX = false;
-        bool buttonY = false;
+        RightTriggerButton();
+        LeftTriggerButton();
 
-        if (device.TryGetFeatureValue(CommonUsages.primaryButton, out buttonA) && buttonA)
-        {
-            TeleportTo(new Vector3(0, 0, 10));
-        }
+        ButtonA();
+        ButtonB();
 
-        if (device.TryGetFeatureValue(CommonUsages.secondaryButton, out buttonB) && buttonB)
-        {
-            TeleportTo(new Vector3(0, 0, -10));
-        }
 
-        if (device.TryGetFeatureValue(CommonUsages.primary2DAxisClick, out buttonX) && buttonX)
-        {
-            TeleportTo(new Vector3(10, 0, 0));
-        }
 
-        if (device.TryGetFeatureValue(CommonUsages.secondary2DAxisClick, out buttonY) && buttonY)
-        {
-            TeleportTo(new Vector3(-10, 0, 0));
-        }
+    }
 
-        if (buttonA && buttonX)
+    void RightTriggerButton()
+    {
+        // needs to be in Update
+        right = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+        // assigns button value to out variable, if expecting Vector3 replace bool
+        right.TryGetFeatureValue(CommonUsages.triggerButton, out bool isRTriggerPressed);
+        if (isRTriggerPressed)
         {
-            TeleportTo(new Vector3(10, 10, 0));
+            Debug.Log("RtriggerButton");
         }
     }
+
+    void LeftTriggerButton()
+    {
+        left = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+
+        left.TryGetFeatureValue(CommonUsages.triggerButton, out bool isLTriggerPressed);
+
+        if (isLTriggerPressed)
+        {
+            Debug.Log("LtriggerButton");
+            TeleportTo(new Vector3(5, 0, 0));
+        }
+    }
+    void ButtonA()
+    {
+        // needs to be in Update
+        right = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+        // assigns button value to out variable, if expecting Vector3 replace bool
+        right.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonA);
+        if (primaryButtonA)
+        {
+            Debug.Log("ButtonA"); 
+        }
+    }
+    void ButtonB()
+    {
+        // needs to be in Update
+        right = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+        // assigns button value to out variable, if expecting Vector3 replace bool
+        right.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonY);
+        if (secondaryButtonY)
+        {
+            Debug.Log("ButtonB ");
+        }
+    }
+    void ButtonX()
+    {
+        // needs to be in Update
+        left = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+        // assigns button value to out variable, if expecting Vector3 replace bool
+        left.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonX);
+        if (primaryButtonX)
+        {
+            Debug.Log("ButtonX");
+        }
+    }
+    void ButtonY()
+    {
+        // needs to be in Update
+        left = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+        // assigns button value to out variable, if expecting Vector3 replace bool
+        left.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonY);
+        if (secondaryButtonY)
+        {
+            Debug.Log("ButtonY");
+        }
+    }
+
 
     void TeleportTo(Vector3 position)
     {
