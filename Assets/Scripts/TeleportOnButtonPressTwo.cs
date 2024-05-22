@@ -26,10 +26,9 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     GameObject Rightcontroller;
 
     public List<int> magicList = new List<int>();
-    public int magicLCrrntNum = 0;
     private int MaxNum = 3;
 
-    public int combinedInput;
+    public int magicID = 0; //  마법의 고유 번호 
 
     private bool isButtonA = false;
     private bool isButtonB = false;
@@ -58,7 +57,6 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     {
         ButtonInput();
 
-        
     }
 
     void ButtonInput()
@@ -73,7 +71,6 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         {
             AddInput(BtnNumA);
         }
-        
         prevButtonA = isButtonA;
 
         right.TryGetFeatureValue(CommonUsages.secondaryButton, out isButtonB);
@@ -81,7 +78,6 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         {
             AddInput(BtnNumB);
         }
-        
         prevButtonB = isButtonB;
 
         left.TryGetFeatureValue(CommonUsages.primaryButton, out isButtonX);
@@ -89,7 +85,6 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         {
             AddInput(BtnNumX);
         }
-        
         prevButtonX = isButtonX;
 
         left.TryGetFeatureValue(CommonUsages.secondaryButton, out isButtonY);
@@ -97,8 +92,15 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         {
             AddInput(BtnNumY);
         }
-        
         prevButtonY = isButtonY;
+
+
+        right.TryGetFeatureValue(CommonUsages.triggerButton, out bool isRTriggerPressed);
+        left.TryGetFeatureValue(CommonUsages.triggerButton, out bool isLTriggerPressed);
+        if (isRTriggerPressed || isLTriggerPressed)
+        {
+            // 트리거를 누르면 magicID에 해당하는 마법 효과 또는 투사체 발사 함수 실행 
+        }
     }
 
     void AddInput(int input)
@@ -111,10 +113,11 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         // 새로운 입력 값을 리스트에 추가합니다
         magicList.Add(input);
 
-        combinedInput = ConvertListToInt(magicList);
+        magicID = ConvertListToInt(magicList);
     }
 
-    int ConvertListToInt(List<int> list)
+    // 리스트의 숫자를 정수형으로 변경
+    int ConvertListToInt(List<int> list)    
     {
         int result = 0;
         foreach (int num in list)
@@ -124,27 +127,9 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         return result;
     }
 
-    void RightTriggerButton()
+    public int IDProvider()
     {
-        right = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
-        right.TryGetFeatureValue(CommonUsages.triggerButton, out bool isRTriggerPressed);
-        if (isRTriggerPressed)
-        {
-            Debug.Log("RtriggerButton");
-        }
+        return magicID;
     }
-
-    void LeftTriggerButton()
-    {
-        left = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
-        left.TryGetFeatureValue(CommonUsages.triggerButton, out bool isLTriggerPressed);
-        if (isLTriggerPressed)
-        {
-            Debug.Log("LtriggerButton");
-        }
-    }
-
-
-
     
 }
