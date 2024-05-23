@@ -14,16 +14,134 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     [SerializeField]
     GameObject Rightcontroller;
 
-    private GameObject effectPrefab_1;  // √‚∑¬«“ ¿Ã∆Â∆Æ «¡∏Æ∆’
-    private GameObject effectPrefab_2;
-    private GameObject effectPrefab_3;
-    private GameObject effectPrefab_4;
-    private GameObject effectPrefab_5;
-    private GameObject effectPrefab_6;
-    private GameObject effectPrefab_7;
-    private GameObject effectPrefab_8;
-    private GameObject effectPrefab_9;
-    private GameObject effectPrefab_10;
+    [SerializeField]
+    private GameObject effectPrefab_001;
+    [SerializeField]
+    private GameObject effectPrefab_002;
+    [SerializeField]
+    private GameObject effectPrefab_003;
+    [SerializeField]
+    private GameObject effectPrefab_010;
+    [SerializeField]
+    private GameObject effectPrefab_011;
+    [SerializeField]
+    private GameObject effectPrefab_012;
+    [SerializeField]
+    private GameObject effectPrefab_013;
+    [SerializeField]
+    private GameObject effectPrefab_020;
+    [SerializeField]
+    private GameObject effectPrefab_021;
+    [SerializeField]
+    private GameObject effectPrefab_022;
+    [SerializeField]
+    private GameObject effectPrefab_023;
+    [SerializeField]
+    private GameObject effectPrefab_030;
+    [SerializeField]
+    private GameObject effectPrefab_031;
+    [SerializeField]
+    private GameObject effectPrefab_032;
+    [SerializeField]
+    private GameObject effectPrefab_033;
+    [SerializeField]
+    private GameObject effectPrefab_100;
+    [SerializeField]
+    private GameObject effectPrefab_101;
+    [SerializeField]
+    private GameObject effectPrefab_102;
+    [SerializeField]
+    private GameObject effectPrefab_103;
+    [SerializeField]
+    private GameObject effectPrefab_110;
+    [SerializeField]
+    private GameObject effectPrefab_111;
+    [SerializeField]
+    private GameObject effectPrefab_112;
+    [SerializeField]
+    private GameObject effectPrefab_113;
+    [SerializeField]
+    private GameObject effectPrefab_120;
+    [SerializeField]
+    private GameObject effectPrefab_121;
+    [SerializeField]
+    private GameObject effectPrefab_122;
+    [SerializeField]
+    private GameObject effectPrefab_123;
+    [SerializeField]
+    private GameObject effectPrefab_130;
+    [SerializeField]
+    private GameObject effectPrefab_131;
+    [SerializeField]
+    private GameObject effectPrefab_132;
+    [SerializeField]
+    private GameObject effectPrefab_133;
+    [SerializeField]
+    private GameObject effectPrefab_200;
+    [SerializeField]
+    private GameObject effectPrefab_201;
+    [SerializeField]
+    private GameObject effectPrefab_202;
+    [SerializeField]
+    private GameObject effectPrefab_203;
+    [SerializeField]
+    private GameObject effectPrefab_210;
+    [SerializeField]
+    private GameObject effectPrefab_211;
+    [SerializeField]
+    private GameObject effectPrefab_212;
+    [SerializeField]
+    private GameObject effectPrefab_213;
+    [SerializeField]
+    private GameObject effectPrefab_220;
+    [SerializeField]
+    private GameObject effectPrefab_221;
+    [SerializeField]
+    private GameObject effectPrefab_222;
+    [SerializeField]
+    private GameObject effectPrefab_223;
+    [SerializeField]
+    private GameObject effectPrefab_230;
+    [SerializeField]
+    private GameObject effectPrefab_231;
+    [SerializeField]
+    private GameObject effectPrefab_232;
+    [SerializeField]
+    private GameObject effectPrefab_233;
+    [SerializeField]
+    private GameObject effectPrefab_300;
+    [SerializeField]
+    private GameObject effectPrefab_301;
+    [SerializeField]
+    private GameObject effectPrefab_302;
+    [SerializeField]
+    private GameObject effectPrefab_303;
+    [SerializeField]
+    private GameObject effectPrefab_310;
+    [SerializeField]
+    private GameObject effectPrefab_311;
+    [SerializeField]
+    private GameObject effectPrefab_312;
+    [SerializeField]
+    private GameObject effectPrefab_313;
+    [SerializeField]
+    private GameObject effectPrefab_320;
+    [SerializeField]
+    private GameObject effectPrefab_321;
+    [SerializeField]
+    private GameObject effectPrefab_322;
+    [SerializeField]
+    private GameObject effectPrefab_323;
+    [SerializeField]
+    private GameObject effectPrefab_330;
+    [SerializeField]
+    private GameObject effectPrefab_331;
+    [SerializeField]
+    private GameObject effectPrefab_332;
+    [SerializeField]
+    private GameObject effectPrefab_333;
+
+    private Dictionary<int, GameObject> effectPrefabs = new Dictionary<int, GameObject>();
 
     public List<int> magicList = new List<int>();
     private int MaxNum = 3;
@@ -57,17 +175,70 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         magicList.Add(0);
         magicList.Add(0);
 
-        // «¡∏Æ∆’ ∑ŒµÂ
-        effectPrefab_1 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane");
-        effectPrefab_2 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_2");
-        effectPrefab_3 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_3");
-        effectPrefab_4 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_4");
-        effectPrefab_5 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_5");
-        effectPrefab_6 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_6");
-        effectPrefab_7 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_7");
-        effectPrefab_8 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_8");
-        effectPrefab_9 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_9");
-        effectPrefab_10 = Resources.Load<GameObject>("SpellsPack/Particles/Prefabs/Spells/Spell_Arcane_10");
+        // «¡∏Æ∆’ ∏≈«Œ
+        effectPrefabs[001] = effectPrefab_001;
+        effectPrefabs[002] = effectPrefab_002;
+        effectPrefabs[003] = effectPrefab_003;
+        effectPrefabs[010] = effectPrefab_010;
+        effectPrefabs[011] = effectPrefab_011;
+        effectPrefabs[012] = effectPrefab_012;
+        effectPrefabs[013] = effectPrefab_013;
+        effectPrefabs[020] = effectPrefab_020;
+        effectPrefabs[021] = effectPrefab_021;
+        effectPrefabs[022] = effectPrefab_022;
+        effectPrefabs[023] = effectPrefab_023;
+        effectPrefabs[030] = effectPrefab_030;
+        effectPrefabs[031] = effectPrefab_031;
+        effectPrefabs[032] = effectPrefab_032;
+        effectPrefabs[033] = effectPrefab_033;
+        effectPrefabs[100] = effectPrefab_100;
+        effectPrefabs[101] = effectPrefab_101;
+        effectPrefabs[102] = effectPrefab_102;
+        effectPrefabs[103] = effectPrefab_103;
+        effectPrefabs[110] = effectPrefab_110;
+        effectPrefabs[111] = effectPrefab_111;
+        effectPrefabs[112] = effectPrefab_112;
+        effectPrefabs[113] = effectPrefab_113;
+        effectPrefabs[120] = effectPrefab_120;
+        effectPrefabs[121] = effectPrefab_121;
+        effectPrefabs[122] = effectPrefab_122;
+        effectPrefabs[123] = effectPrefab_123;
+        effectPrefabs[130] = effectPrefab_130;
+        effectPrefabs[131] = effectPrefab_131;
+        effectPrefabs[132] = effectPrefab_132;
+        effectPrefabs[133] = effectPrefab_133;
+        effectPrefabs[200] = effectPrefab_200;
+        effectPrefabs[201] = effectPrefab_201;
+        effectPrefabs[202] = effectPrefab_202;
+        effectPrefabs[203] = effectPrefab_203;
+        effectPrefabs[210] = effectPrefab_210;
+        effectPrefabs[211] = effectPrefab_211;
+        effectPrefabs[212] = effectPrefab_212;
+        effectPrefabs[213] = effectPrefab_213;
+        effectPrefabs[220] = effectPrefab_220;
+        effectPrefabs[221] = effectPrefab_221;
+        effectPrefabs[222] = effectPrefab_222;
+        effectPrefabs[223] = effectPrefab_223;
+        effectPrefabs[230] = effectPrefab_230;
+        effectPrefabs[231] = effectPrefab_231;
+        effectPrefabs[232] = effectPrefab_232;
+        effectPrefabs[233] = effectPrefab_233;
+        effectPrefabs[300] = effectPrefab_300;
+        effectPrefabs[301] = effectPrefab_301;
+        effectPrefabs[302] = effectPrefab_302;
+        effectPrefabs[303] = effectPrefab_303;
+        effectPrefabs[310] = effectPrefab_310;
+        effectPrefabs[311] = effectPrefab_311;
+        effectPrefabs[312] = effectPrefab_312;
+        effectPrefabs[313] = effectPrefab_313;
+        effectPrefabs[320] = effectPrefab_320;
+        effectPrefabs[321] = effectPrefab_321;
+        effectPrefabs[322] = effectPrefab_322;
+        effectPrefabs[323] = effectPrefab_323;
+        effectPrefabs[330] = effectPrefab_330;
+        effectPrefabs[331] = effectPrefab_331;
+        effectPrefabs[332] = effectPrefab_332;
+        effectPrefabs[333] = effectPrefab_333;
     }
 
     void Update()
@@ -144,51 +315,10 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     void TriggerPressed()
     {
-        if (magicID >= 1 && magicID <= 10)
+        if (effectPrefabs.ContainsKey(magicID))
         {
-            int index1 = (magicID - 1) / 3;
-            int index2 = (magicID - 1) % 3;
-
-            GameObject VFX = null;
-            switch (index1)
-            {
-                case 0:
-                    VFX = Instantiate(effectPrefab_1, transform.position, transform.rotation);
-                    break;
-                case 1:
-                    VFX = Instantiate(effectPrefab_2, transform.position, transform.rotation);
-                    break;
-                case 2:
-                    VFX = Instantiate(effectPrefab_3, transform.position, transform.rotation);
-                    break;
-                case 3:
-                    VFX = Instantiate(effectPrefab_4, transform.position, transform.rotation);
-                    break;
-                case 4:
-                    VFX = Instantiate(effectPrefab_5, transform.position, transform.rotation);
-                    break;
-                case 5:
-                    VFX = Instantiate(effectPrefab_6, transform.position, transform.rotation);
-                    break;
-                case 6:
-                    VFX = Instantiate(effectPrefab_7, transform.position, transform.rotation);
-                    break;
-                case 7:
-                    VFX = Instantiate(effectPrefab_8, transform.position, transform.rotation);
-                    break;
-                case 8:
-                    VFX = Instantiate(effectPrefab_9, transform.position, transform.rotation);
-                    break;
-                case 9:
-                    VFX = Instantiate(effectPrefab_10, transform.position, transform.rotation);
-                    break;
-
-            }
-
-            if (VFX != null)
-            {
-                Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
-            }
+            GameObject VFX = Instantiate(effectPrefabs[magicID], transform.position, transform.rotation);
+            Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
         }
     }
 
