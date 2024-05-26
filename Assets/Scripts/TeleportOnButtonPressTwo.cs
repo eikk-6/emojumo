@@ -143,8 +143,9 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     private Dictionary<int, GameObject> effectPrefabs = new Dictionary<int, GameObject>();
 
-    public List<int> magicList = new List<int>();
     private int MaxNum = 3;
+    public List<int> magicList = new List<int>(new int[3]);
+ 
 
     public int magicID = 0; // 마법의 고유 번호 
 
