@@ -168,6 +168,8 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     public float bulletSpeed = 20f;
     public float fireRate = 0.5f; // 총알 발사 간격
 
+
+    private bool isTriggerEnabled = true;
     private float nextFire; // 다음 발사 시간
     
     GameObject VFX;
@@ -326,21 +328,31 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     void TriggerPressed()
     {
-        Debug.DrawRay(Rightcontroller.transform.position, Rightcontroller.transform.forward * 15f, Color.red, 0.3f);
-        if(Physics.Raycast(Rightcontroller.transform.position, Rightcontroller.transform.forward, out hit, 15))
+        if (isTriggerEnabled)
         {
-            if (effectPrefabs.ContainsKey(magicID))
-            {
-                VFX = Instantiate(effectPrefabs[magicID], hit.transform.position, hit.transform.rotation);
-                Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
 
+            // Debug.DrawRay(Rightcontroller.transform.position, Rightcontroller.transform.forward * 30f, Color.red, 1f);
+            if (Physics.Raycast(Rightcontroller.transform.position, Rightcontroller.transform.forward, out hit, 30f))
+            {
+                if (effectPrefabs.ContainsKey(magicID))
+                {
+                    VFX = Instantiate(effectPrefabs[magicID], hit.point, Rightcontroller.transform.rotation);
+
+                    Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
+                    nextFire = VFX.GetComponent<ParticleSystem>().main.duration;
+                    StartCoroutine(DisableInputForSeconds(nextFire));
+                }
             }
         }
-
        
         
     }
-
+    IEnumerator DisableInputForSeconds(float seconds)
+    {
+        isTriggerEnabled = false; // 인풋 비활성화
+        yield return new WaitForSeconds(seconds); // 지정된 시간 동안 대기
+        isTriggerEnabled = true; // 인풋 재활성화
+    }
 
 
     public void Shoot()
