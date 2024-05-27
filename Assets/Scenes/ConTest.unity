@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37bfd98c807afea498c38cb6f0842646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Leftcontroller: {fileID: 0}
-  Rightcontroller: {fileID: 0}
+  Leftcontroller: {fileID: 452463681}
+  Rightcontroller: {fileID: 452463682}
   effectPrefab_001: {fileID: 2186942109981119635, guid: c5f02a16d58781e42a3f6c5264d52e90, type: 3}
   effectPrefab_002: {fileID: 981598918805561394, guid: 6c4c955eb532a464a987f53ca0b96b67, type: 3}
   effectPrefab_003: {fileID: 217051656145255241, guid: f0d0793ff6755cb4d82287dd3e4d1146, type: 3}
@@ -207,6 +207,8 @@ MonoBehaviour:
   effectPrefab_333: {fileID: 7970835593044432739, guid: 9f3d6422b3e69574f842d98b34931ffd, type: 3}
   magicList: 
   magicID: 0
+  bulletSpeed: 20
+  fireRate: 0.5
 --- !u!1 &54595891
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,6 +675,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83e4e6cca11330d4088d729ab4fc9d9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &452463681 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9014170785475729474, guid: 96323bf3f7fafa34bab4cf72bfc1f210, type: 3}
+  m_PrefabInstance: {fileID: 452463679}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &452463682 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9014170783705847997, guid: 96323bf3f7fafa34bab4cf72bfc1f210, type: 3}
+  m_PrefabInstance: {fileID: 452463679}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &500067985 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9014170785475729501, guid: 96323bf3f7fafa34bab4cf72bfc1f210, type: 3}

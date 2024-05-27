@@ -164,6 +164,15 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     private int BtnNumX = 2;
     private int BtnNumY = 3;
 
+
+    public float bulletSpeed = 20f;
+    public float fireRate = 0.5f; // 총알 발사 간격
+
+    private float nextFire; // 다음 발사 시간
+    
+    GameObject VFX;
+    RaycastHit hit;
+
     void Start()
     {
         prevButtonA = false;
@@ -245,6 +254,7 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     void Update()
     {
         ButtonInput();
+       
     }
 
     void ButtonInput()
@@ -316,15 +326,33 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     void TriggerPressed()
     {
-        if (effectPrefabs.ContainsKey(magicID))
+        Debug.DrawRay(Rightcontroller.transform.position, Rightcontroller.transform.forward * 15f, Color.red, 0.3f);
+        if(Physics.Raycast(Rightcontroller.transform.position, Rightcontroller.transform.forward, out hit, 15))
         {
-            GameObject VFX = Instantiate(effectPrefabs[magicID], transform.position, transform.rotation);
-            Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
+            if (effectPrefabs.ContainsKey(magicID))
+            {
+                VFX = Instantiate(effectPrefabs[magicID], hit.transform.position, hit.transform.rotation);
+                Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
+
+            }
         }
+
+       
+        
     }
 
-    public int IDProvider()
+
+
+    public void Shoot()
     {
-        return magicID;
+        // 총알 프리팹 생성
+        VFX = Instantiate(effectPrefabs[magicID], Rightcontroller.transform.position, Rightcontroller.transform.rotation);
+
+        // 총알 발사
+        VFX.GetComponent<Rigidbody>().velocity = VFX.transform.forward * bulletSpeed;
+
+        // 2초 뒤에 파괴
+        Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
     }
+
 }
