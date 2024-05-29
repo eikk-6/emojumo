@@ -9,10 +9,17 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     InputDevice left;
     InputDevice right;
 
+    Transform shootpoint;
+    //[SerializeField]
+    //GameObject Leftcontroller;
+    //[SerializeField]
+    //GameObject Rightcontroller;
+
+    public bool isGrabbed = false;
+
+
     [SerializeField]
-    GameObject Leftcontroller;
-    [SerializeField]
-    GameObject Rightcontroller;
+    private GameObject AreaPrefab;
 
     [SerializeField]
     private GameObject effectPrefab_001;
@@ -164,6 +171,17 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     private int BtnNumX = 2;
     private int BtnNumY = 3;
 
+
+    public float bulletSpeed = 20f;
+    public float fireRate = 0.5f; // 총알 발사 간격
+
+
+    private bool isTriggerEnabled = true;
+    private float nextFire; // 다음 발사 시간
+    
+    GameObject VFX;
+    RaycastHit hit;
+
     void Start()
     {
         prevButtonA = false;
@@ -240,11 +258,19 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         effectPrefabs[331] = effectPrefab_331;
         effectPrefabs[332] = effectPrefab_332;
         effectPrefabs[333] = effectPrefab_333;
+
+
+        shootpoint = GameObject.Find("MagicShootPoint").GetComponent<Transform>();
     }
 
     void Update()
     {
-        ButtonInput();
+        if(isGrabbed)
+        {
+            ButtonInput();
+        }
+        
+       
     }
 
     void ButtonInput()
@@ -316,15 +342,60 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     void TriggerPressed()
     {
-        if (effectPrefabs.ContainsKey(magicID))
+        if (isTriggerEnabled)
         {
-            GameObject VFX = Instantiate(effectPrefabs[magicID], transform.position, transform.rotation);
-            Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
+             Debug.DrawRay(shootpoint.position, shootpoint.forward * 30f, Color.red, 1f);
+            if (Physics.Raycast(shootpoint.position, shootpoint.forward, out hit, 30f))
+            {
+                if (effectPrefabs.ContainsKey(magicID))
+                {   
+                    VFX = Instantiate(effectPrefabs[magicID], hit.point+ effectPrefabs[magicID].transform.position, shootpoint.rotation);
+
+                    Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
+                    nextFire = VFX.GetComponent<ParticleSystem>().main.duration;
+                    StartCoroutine(DisableInputForSeconds(nextFire));
+                }
+            }
+        }
+       
+        
+    }
+    IEnumerator DisableInputForSeconds(float seconds)
+    {
+        isTriggerEnabled = false; // 마법 비활성화
+        yield return new WaitForSeconds(seconds); // 지정된 시간 동안 대기
+        isTriggerEnabled = true; // 마법 재활성화
+    }
+
+
+    private void showRoughRange() 
+    {
+        if (Physics.Raycast(shootpoint.position, shootpoint.forward, out hit, 30f))
+        {
+            AreaPrefab.transform.position = hit.point;
         }
     }
 
-    public int IDProvider()
+    public void Shoot()
     {
-        return magicID;
+        // 총알 프리팹 생성
+        VFX = Instantiate(effectPrefabs[magicID], transform.position, transform.rotation);
+
+        // 총알 발사
+        VFX.GetComponent<Rigidbody>().velocity = VFX.transform.forward * bulletSpeed;
+
+        // 2초 뒤에 파괴
+        Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
     }
+
+
+    public void onStaff() 
+    {
+        isGrabbed = true;
+    }
+    public void offStaff()
+    {
+        isGrabbed = false;
+    }
+
 }
