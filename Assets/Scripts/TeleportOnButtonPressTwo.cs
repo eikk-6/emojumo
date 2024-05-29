@@ -9,10 +9,13 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     InputDevice left;
     InputDevice right;
 
-    [SerializeField]
-    GameObject Leftcontroller;
-    [SerializeField]
-    GameObject Rightcontroller;
+    Transform shootpoint;
+    //[SerializeField]
+    //GameObject Leftcontroller;
+    //[SerializeField]
+    //GameObject Rightcontroller;
+
+    public bool isGrabbed = false;
 
     [SerializeField]
     private GameObject effectPrefab_001;
@@ -251,11 +254,18 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         effectPrefabs[331] = effectPrefab_331;
         effectPrefabs[332] = effectPrefab_332;
         effectPrefabs[333] = effectPrefab_333;
+
+
+        shootpoint = GameObject.Find("MagicShootPoint").GetComponent<Transform>();
     }
 
     void Update()
     {
-        ButtonInput();
+        if(isGrabbed)
+        {
+            ButtonInput();
+        }
+        
        
     }
 
@@ -330,13 +340,12 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     {
         if (isTriggerEnabled)
         {
-
-            // Debug.DrawRay(Rightcontroller.transform.position, Rightcontroller.transform.forward * 30f, Color.red, 1f);
-            if (Physics.Raycast(Rightcontroller.transform.position, Rightcontroller.transform.forward, out hit, 30f))
+             Debug.DrawRay(shootpoint.position, shootpoint.forward * 30f, Color.red, 1f);
+            if (Physics.Raycast(shootpoint.position, shootpoint.forward, out hit, 30f))
             {
                 if (effectPrefabs.ContainsKey(magicID))
-                {
-                    VFX = Instantiate(effectPrefabs[magicID], hit.point, Rightcontroller.transform.rotation);
+                {   
+                    VFX = Instantiate(effectPrefabs[magicID], hit.point+ effectPrefabs[magicID].transform.position, shootpoint.rotation);
 
                     Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
                     nextFire = VFX.GetComponent<ParticleSystem>().main.duration;
@@ -349,22 +358,30 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     }
     IEnumerator DisableInputForSeconds(float seconds)
     {
-        isTriggerEnabled = false; // 인풋 비활성화
+        isTriggerEnabled = false; // 마법 비활성화
         yield return new WaitForSeconds(seconds); // 지정된 시간 동안 대기
-        isTriggerEnabled = true; // 인풋 재활성화
+        isTriggerEnabled = true; // 마법 재활성화
     }
 
 
     public void Shoot()
     {
         // 총알 프리팹 생성
-        VFX = Instantiate(effectPrefabs[magicID], Rightcontroller.transform.position, Rightcontroller.transform.rotation);
+        VFX = Instantiate(effectPrefabs[magicID], transform.position, transform.rotation);
 
         // 총알 발사
         VFX.GetComponent<Rigidbody>().velocity = VFX.transform.forward * bulletSpeed;
 
         // 2초 뒤에 파괴
         Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
+    }
+    public void onStaff() 
+    {
+        isGrabbed = true;
+    }
+    public void offStaff()
+    {
+        isGrabbed = false;
     }
 
 }

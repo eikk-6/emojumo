@@ -10,9 +10,9 @@ public class MagicUiManager : MonoBehaviour
 
 
     [SerializeField]
-    GameObject XRrig;
+    GameObject Cane;
 
-    public List<int> XRrigList;
+    public List<int> Mlist;
 
      Material Firstmat;
      Material Secmat;
@@ -29,7 +29,7 @@ public class MagicUiManager : MonoBehaviour
         Secmat = Que_2.GetComponent<MeshRenderer>().material;
         Thremat = Que_3.GetComponent<MeshRenderer>().material;
 
-        XRrigList = XRrig.GetComponent<TeleportOnButtonPressTwo>().magicList;
+        Mlist = Cane.GetComponent<TeleportOnButtonPressTwo>().magicList;
 
         Que_1.GetComponent<MeshRenderer>().material = mat[0];
         Que_2.GetComponent<MeshRenderer>().material = mat[0];
@@ -49,19 +49,19 @@ public class MagicUiManager : MonoBehaviour
         {
             if(i==0)
             {
-                if (XRrigList[i] == 0)
+                if (Mlist[i] == 0)
                 {
                     Que_1.GetComponent<MeshRenderer>().material = mat[0];
                 }
-                else if (XRrigList[i] == 1)
+                else if (Mlist[i] == 1)
                 {
                     Que_1.GetComponent<MeshRenderer>().material = mat[1];
                 }
-                else if (XRrigList[i] == 2)
+                else if (Mlist[i] == 2)
                 {
                     Que_1.GetComponent<MeshRenderer>().material = mat[2];
                 }
-                else if (XRrigList[i] == 3)
+                else if (Mlist[i] == 3)
                 {
                     Que_1.GetComponent<MeshRenderer>().material = mat[3];
                 }
@@ -69,19 +69,19 @@ public class MagicUiManager : MonoBehaviour
 
             if (i == 1)
             {
-                if (XRrigList[i] == 0)
+                if (Mlist[i] == 0)
                 {
                     Que_2.GetComponent<MeshRenderer>().material = mat[0];
                 }
-                else if (XRrigList[i] == 1)
+                else if (Mlist[i] == 1)
                 {
                     Que_2.GetComponent<MeshRenderer>().material = mat[1];
                 }
-                else if (XRrigList[i] == 2)
+                else if (Mlist[i] == 2)
                 {
                     Que_2.GetComponent<MeshRenderer>().material = mat[2];
                 }
-                else if (XRrigList[i] == 3)
+                else if (Mlist[i] == 3)
                 {
                     Que_2.GetComponent<MeshRenderer>().material = mat[3];
                 }
@@ -89,19 +89,19 @@ public class MagicUiManager : MonoBehaviour
 
             if (i == 2)
             {
-                if (XRrigList[i] == 0)
+                if (Mlist[i] == 0)
                 {
                     Que_3.GetComponent<MeshRenderer>().material = mat[0];
                 }
-                else if (XRrigList[i] == 1)
+                else if (Mlist[i] == 1)
                 {
                     Que_3.GetComponent<MeshRenderer>().material = mat[1];
                 }
-                else if (XRrigList[i] == 2)
+                else if (Mlist[i] == 2)
                 {
                     Que_3.GetComponent<MeshRenderer>().material = mat[2];
                 }
-                else if (XRrigList[i] == 3)
+                else if (Mlist[i] == 3)
                 {
                     Que_3.GetComponent<MeshRenderer>().material = mat[3];
                 }
