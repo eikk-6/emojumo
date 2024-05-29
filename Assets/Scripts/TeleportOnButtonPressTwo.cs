@@ -17,6 +17,10 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     public bool isGrabbed = false;
 
+
+    [SerializeField]
+    private GameObject AreaPrefab;
+
     [SerializeField]
     private GameObject effectPrefab_001;
     [SerializeField]
@@ -364,6 +368,14 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     }
 
 
+    private void showRoughRange() 
+    {
+        if (Physics.Raycast(shootpoint.position, shootpoint.forward, out hit, 30f))
+        {
+            AreaPrefab.transform.position = hit.point;
+        }
+    }
+
     public void Shoot()
     {
         // ÃÑ¾Ë ÇÁ¸®ÆÕ »ý¼º
@@ -375,6 +387,8 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         // 2ÃÊ µÚ¿¡ ÆÄ±«
         Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
     }
+
+
     public void onStaff() 
     {
         isGrabbed = true;
