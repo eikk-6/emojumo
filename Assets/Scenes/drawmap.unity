@@ -498,6 +498,7 @@ GameObject:
   - component: {fileID: 422033372}
   - component: {fileID: 422033373}
   - component: {fileID: 422033375}
+  - component: {fileID: 422033376}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -559,16 +560,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 422033371}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e22a4126d9415a439c738eff8b67b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image2: {fileID: 2800000, guid: 6cda8dc318c2b9548a5cddd420133096, type: 3}
+  image2: {fileID: 2800000, guid: 5bfa3f0c959ab774ebc7f1924e1e0a38, type: 3}
   compareButton: {fileID: 1930811502}
   image1Raw: {fileID: 1346316024}
   resultText: {fileID: 2002307765}
   similarityThreshold: 0.3
+--- !u!114 &422033376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422033371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39c6902d3507df24e9f2289bfa442cd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  compareButton: {fileID: 1930811502}
+  imagePath1: '"Assets/Script/asdf.png"'
+  imagePath2: '"Assets/Script/asdf 1.png"'
 --- !u!1 &562113401
 GameObject:
   m_ObjectHideFlags: 0
