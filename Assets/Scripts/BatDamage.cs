@@ -10,7 +10,6 @@ public class BatDamage : MonoBehaviour
         {
             // 예시로 만든 EnemyHealth 스크립트를 가져옴
             EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
-
             if (enemyHealth != null)
             {
                 enemyHealth.TakeDamage(damage);
