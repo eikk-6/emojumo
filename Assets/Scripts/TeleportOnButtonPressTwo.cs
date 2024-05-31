@@ -152,7 +152,7 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     private int MaxNum = 3;
     public List<int> magicList = new List<int>(new int[3]);
- 
+
 
     public int magicID = 0; // 마법의 고유 번호 
 
@@ -178,7 +178,7 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     private bool isTriggerEnabled = true;
     private float nextFire; // 다음 발사 시간
-    
+
     GameObject VFX;
     RaycastHit hit;
 
@@ -265,12 +265,12 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     void Update()
     {
-        if(isGrabbed)
+        if (isGrabbed)
         {
             ButtonInput();
         }
-        
-       
+
+
     }
 
     void ButtonInput()
@@ -309,8 +309,8 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         prevButtonY = isButtonY;
 
         right.TryGetFeatureValue(CommonUsages.triggerButton, out bool isRTriggerPressed);
-        left.TryGetFeatureValue(CommonUsages.triggerButton, out bool isLTriggerPressed);
-        if (isRTriggerPressed || isLTriggerPressed)
+        //left.TryGetFeatureValue(CommonUsages.triggerButton, out bool isLTriggerPressed);
+        if (isRTriggerPressed )
         {
             TriggerPressed();
         }
@@ -344,12 +344,12 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     {
         if (isTriggerEnabled)
         {
-             Debug.DrawRay(shootpoint.position, shootpoint.forward * 30f, Color.red, 1f);
+            Debug.DrawRay(shootpoint.position, shootpoint.forward * 30f, Color.red, 1f);
             if (Physics.Raycast(shootpoint.position, shootpoint.forward, out hit, 30f))
             {
                 if (effectPrefabs.ContainsKey(magicID))
-                {   
-                    VFX = Instantiate(effectPrefabs[magicID], hit.point+ effectPrefabs[magicID].transform.position, shootpoint.rotation);
+                {
+                    VFX = Instantiate(effectPrefabs[magicID], hit.point + effectPrefabs[magicID].transform.position, effectPrefabs[magicID].transform.rotation);
 
                     Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
                     nextFire = VFX.GetComponent<ParticleSystem>().main.duration;
@@ -357,8 +357,8 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
                 }
             }
         }
-       
-        
+
+
     }
     IEnumerator DisableInputForSeconds(float seconds)
     {
@@ -368,13 +368,7 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     }
 
 
-    private void showRoughRange() 
-    {
-        if (Physics.Raycast(shootpoint.position, shootpoint.forward, out hit, 30f))
-        {
-            AreaPrefab.transform.position = hit.point;
-        }
-    }
+  
 
     public void Shoot()
     {
@@ -389,7 +383,7 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     }
 
 
-    public void onStaff() 
+    public void onStaff()
     {
         isGrabbed = true;
     }
