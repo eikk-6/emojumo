@@ -1244,7 +1244,7 @@ MonoBehaviour:
   enemyType: 0
   attackDamage: 10
   attackCooldown: 2
-  attackRange: {x: 1, y: 1, z: 1}
+  attackRange: {x: 1, y: 1, z: 2}
   attackDistance: 0.5
   sightRange: {x: 15, y: 10, z: 15}
   sightDistance: 0
