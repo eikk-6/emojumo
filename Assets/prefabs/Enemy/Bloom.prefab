@@ -1048,7 +1048,7 @@ GameObject:
   - component: {fileID: 3513585652156584324}
   m_Layer: 0
   m_Name: Bloom
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1174,7 +1174,7 @@ MonoBehaviour:
   enemyType: 1
   attackDamage: 10
   attackCooldown: 3
-  attackRange: {x: 1, y: 1, z: 1}
+  attackRange: {x: 1, y: 1, z: 1.5}
   attackDistance: 1
   sightRange: {x: 15, y: 10, z: 15}
   sightDistance: 0

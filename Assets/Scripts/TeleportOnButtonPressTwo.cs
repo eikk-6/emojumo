@@ -10,16 +10,11 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     InputDevice right;
 
     Transform shootpoint;
-    //[SerializeField]
-    //GameObject Leftcontroller;
-    //[SerializeField]
-    //GameObject Rightcontroller;
+
 
     public bool isGrabbed = false;
 
 
-    [SerializeField]
-    private GameObject AreaPrefab;
 
     [SerializeField]
     private GameObject effectPrefab_001;
@@ -351,6 +346,8 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
                 if (effectPrefabs.ContainsKey(magicID))
                 {
                     VFX = Instantiate(effectPrefabs[magicID], hit.point + effectPrefabs[magicID].transform.position, effectPrefabs[magicID].transform.rotation);
+
+
 
                     Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
                     nextFire = VFX.GetComponent<ParticleSystem>().main.duration;

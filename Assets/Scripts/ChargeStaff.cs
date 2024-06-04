@@ -118,6 +118,7 @@ public class ChargeStaff : MonoBehaviour
             Destroy(firingVFXInstance, 5f);
 
             // Disable trigger input for a short duration
+            isCharging = false;
             StartCoroutine(DisableInputForSeconds(1.0f));
         }
     }

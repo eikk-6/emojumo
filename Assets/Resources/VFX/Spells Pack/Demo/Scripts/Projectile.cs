@@ -31,14 +31,9 @@ namespace ZakhanSpellsPack
                 if (enemyHealth != null)
                 {
                     if(VFXname == "Projectile_Fire(Clone)")
-
-                         enemyHealth.TakeDamage(10);
+                         enemyHealth.TakeDamage(30);
                     else if (VFXname == "Projectile_Fire_3(Clone)")
-                    {
-                        Debug.Log("hit");
                         enemyHealth.TakeDamage(60);
-                    }
-                        
 
                 }
             }

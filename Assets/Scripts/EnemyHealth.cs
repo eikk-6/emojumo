@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 100;
-    public int health; // 피 설정
+    private int health; // 피 설정
 
     private EnemyController enemyController;
 

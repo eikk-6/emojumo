@@ -1120,7 +1120,7 @@ GameObject:
   - component: {fileID: 2028754649595096708}
   m_Layer: 0
   m_Name: Hermit King
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

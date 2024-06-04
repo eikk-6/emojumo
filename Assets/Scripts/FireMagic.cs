@@ -6,71 +6,88 @@ using System;
 
 public class FireMagic : MonoBehaviour
 {
-    public float speed = 50f;
-    public GameObject magicVFX;
-    public Transform frontOfWand;
-    public int damage = 10;
-
-    public bool isGrabbed = false;
-
     InputDevice left;
     InputDevice right;
 
-    public static event Action magicFired;
+    public bool isGrabbed = false;
+    public bool isCharging = false;
 
-    private void Update()
+    [SerializeField]
+    private GameObject FiringVFX;
+    [SerializeField]
+    private GameObject ChargePoint;
+
+
+
+    private float stayTime = 0.0f;
+    public float requiredTime = 5.0f;
+
+    private bool isTriggerEnabled = true;
+
+    GameObject chargingVFXInstance;
+    RaycastHit hit;
+
+    void Update()
     {
         if (isGrabbed)
         {
-            right.TryGetFeatureValue(CommonUsages.triggerButton, out bool isRTriggerPressed);
-            if (isRTriggerPressed)
-            {
-                Debug.Log("ddd"); 
-            }
-                Fire();
+            ButtonInput();
         }
-        
     }
 
-    public void Fire()
+    void ButtonInput()
     {
+        // 좌우 디바이스 인식
+        right = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+        left = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+
+        // 차징코드 5초동안 콜라이더에 손을 가져가면 활성화 트리거 누르면 발사
         right.TryGetFeatureValue(CommonUsages.triggerButton, out bool isRTriggerPressed);
+
         if (isRTriggerPressed)
         {
-            Debug.Log("ddd");
-        
-
-        GetComponent<AudioSource>().Play();
-        GameObject spawnedVFX = Instantiate(magicVFX, frontOfWand.position, frontOfWand.rotation);
-
-        Rigidbody rb = spawnedVFX.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.velocity = 10f * frontOfWand.transform.forward;
-        }
-
-        //Rigidbody rb = spawnedVFX.AddComponent<Rigidbody>();
-        //rb.useGravity = false;  // VFX가 중력의 영향을 받지 않도록 설정
-        //rb.velocity = speed * frontOfWand.forward;
-
-        //Collider collider = spawnedVFX.AddComponent<SphereCollider>();
-        //collider.isTrigger = true;
-
-        Destroy(spawnedVFX, 5f);
-        magicFired?.Invoke();
+            TriggerPressed();
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+
+    void TriggerPressed()
     {
-        if (other.CompareTag("enemy"))
+        if (isTriggerEnabled)
         {
-            EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
+            Debug.DrawRay(ChargePoint.transform.position, ChargePoint.transform.forward * 30f, Color.red, 1f);
+
+            // isCharging 상태를 유지
+            // Destroy the existing charging VFX
+            if (chargingVFXInstance != null)
             {
-                enemyHealth.TakeDamage(damage);
+                Destroy(chargingVFXInstance);
+                chargingVFXInstance = null;
             }
+
+            // Instantiate the firing VFX at the charge point
+            GameObject firingVFXInstance = Instantiate(FiringVFX, ChargePoint.transform.position, ChargePoint.transform.rotation);
+
+            // Set the velocity of the firing VFX to move it forward
+            Rigidbody rb = firingVFXInstance.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = 10f * ChargePoint.transform.forward;
+            }
+
+            // Destroy the firing VFX after 5 seconds
+            Destroy(firingVFXInstance, 5f);
+
+            // Disable trigger input for a short duration
+            StartCoroutine(DisableInputForSeconds(1.0f));
         }
+    }
+
+    IEnumerator DisableInputForSeconds(float seconds)
+    {
+        isTriggerEnabled = false; // 마법 비활성화
+        yield return new WaitForSeconds(seconds); // 지정된 시간 동안 대기
+        isTriggerEnabled = true; // 마법 재활성화
     }
 
     public void onStaff()

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7906335153927757504}
   - component: {fileID: 8212629005421041888}
   - component: {fileID: 3455015244253737930}
+  - component: {fileID: 5656722747845731812}
+  - component: {fileID: 3523515358071009897}
   m_Layer: 0
   m_Name: Spell_Arcane_6
   m_TagString: Untagged
@@ -4908,6 +4910,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.0288415, y: 0.38740987, z: 4.335226}
   m_Center: {x: -0.1304686, y: -0.28598627, z: -0.22869682}
+--- !u!135 &5656722747845731812
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007446721470092919}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3523515358071009897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007446721470092919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22d17785e552a0546a596c1f2af7ece9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2556175551503181060
 GameObject:
   m_ObjectHideFlags: 0
