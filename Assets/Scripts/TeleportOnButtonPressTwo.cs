@@ -344,6 +344,7 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     {
         if (isTriggerEnabled)
         {
+
             Debug.DrawRay(shootpoint.position, shootpoint.forward * 30f, Color.red, 1f);
             if (Physics.Raycast(shootpoint.position, shootpoint.forward, out hit, 30f))
             {
