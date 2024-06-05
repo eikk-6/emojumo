@@ -34,7 +34,8 @@ public class EnemyController : MonoBehaviour
         anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider>();
         enemyHealth = GetComponent<EnemyHealth>();
-        if(gameObject.transform.parent != null)
+
+        if(centrePoint == null && gameObject.transform.parent != null)
         {
             centrePoint = gameObject.transform.parent.gameObject.transform;
         }
