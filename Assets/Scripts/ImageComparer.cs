@@ -55,7 +55,7 @@ public class ImageComparer : MonoBehaviour
 
         Texture2D resizedUserTexture = ResizeTexture(userTexture, targetWidth, targetHeight);
 
-        float similarity = CalculateSimilarity(resizedUserTexture, referenceTexture);
+        float similarity = CalculateSimilarity(resizedUserTexture, referenceTexture, sampleSize);
         resultText.text = "À¯»çµµ: " + (similarity * 100f).ToString("F2") + "%";
     }
 
@@ -79,7 +79,7 @@ public class ImageComparer : MonoBehaviour
         return result;
     }
 
-    private float CalculateSimilarity(Texture2D tex1, Texture2D tex2)
+    private float CalculateSimilarity(Texture2D tex1, Texture2D tex2,int sampleSize)
     {
         List<Vector2Int> paintedPixels1 = GetPaintedPixels(tex1);
         List<Vector2Int> paintedPixels2 = GetPaintedPixels(tex2);
@@ -103,7 +103,7 @@ public class ImageComparer : MonoBehaviour
             }
         }
 
-        return (float)similarCount / samples;
+        return (float)similarCount / sampleSize;
     }
 
     private bool PositionsAreSimilar(Vector2Int pos1, Texture2D tex1, Texture2D tex2)
