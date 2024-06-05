@@ -645,7 +645,7 @@ MonoBehaviour:
   compareButton: {fileID: 1930811502}
   resultText: {fileID: 2002307765}
   overlayImage: {fileID: 2056614739}
-  sampleSize: 321
+  sampleSize: 100
   neighborhoodSize: 3
 --- !u!1 &562113401
 GameObject:
