@@ -5,6 +5,14 @@ using UnityEngine.AI;
 
 public class EnemyDirector : MonoBehaviour
 {
+    public Vector3 attackRange;                 // 공격 범위
+    public float attackDistance;                // 공격 거리
+    public Vector3 sightRange;                  // 시야 범위
+    public float sightDistance;                 // 시야 거리
+    public LayerMask playerLayer;               // 플레이어 레이어
+
+    private BoxCollider boxCollider;
+
     public List<Transform> PatrolPath = new List<Transform>(); // Path 리스트
     private NavMeshAgent NMA; // Nav Mesh Agent
     private Animator animator; // Animator 컴포넌트
@@ -23,6 +31,8 @@ public class EnemyDirector : MonoBehaviour
             NMA.SetDestination(PatrolPath[currentPath].position); // 처음 경로로 이동 시작
             SetMovingAnimation(true); // 이동 애니메이션 시작
         }
+
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -67,15 +77,65 @@ public class EnemyDirector : MonoBehaviour
         }
     }
 
-    private void SetMovingAnimation(bool isMoving)
+    public void SetMovingAnimation(bool isMoving)
     {
         if (animator != null)
         {
-            animator.SetBool("isMoving", isMoving);
+            animator.SetBool("Walk", isMoving);
         }
         else
         {
             Debug.LogError("Animator is not assigned.");
         }
+    }
+
+    public bool PlayerInSight()
+    {
+        Collider[] hitColliders = Physics.OverlapBox(transform.position, sightRange / 2, Quaternion.identity, playerLayer);
+
+        foreach (Collider collider in hitColliders)
+        {
+            Vector3 direction = collider.transform.position - transform.position;
+            float angle = Vector3.Angle(direction, transform.forward);
+
+            if (angle < sightDistance)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, direction.normalized, out hit, sightDistance))
+                {
+                    if (hit.collider.CompareTag("Player"))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private void Update()
+    {
+        if (PlayerInSight())
+        {
+            NMA.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (boxCollider == null)
+        {
+            return;
+        }
+        Gizmos.color = Color.yellow;
+        Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, attackRange * 2);
+
+        Gizmos.matrix = Matrix4x4.identity;
+        // 시야 범위
+        Vector3 sightSize = new Vector3(boxCollider.bounds.size.x * sightRange.x, boxCollider.bounds.size.y * sightRange.y, boxCollider.bounds.size.z * sightRange.z);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(boxCollider.bounds.center + transform.forward * sightRange.x * transform.localScale.x * sightDistance, sightSize);
     }
 }
