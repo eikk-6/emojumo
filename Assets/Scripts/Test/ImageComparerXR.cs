@@ -59,20 +59,20 @@ public class ImageComparerXR : MonoBehaviour
 
     private void HandleInput()
     {
-        if (leftController.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool yButton) && yButton)
-        {
-            ToggleDrawingMode();
-        }
+        //if (leftController.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool yButton) && yButton)
+        //{
+        //    ToggleDrawingMode();
+        //}
 
         if (isDrawingMode)
         {
             DrawOnCanvas();
         }
 
-        if (rightController.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool bButton) && bButton)
-        {
-            CompareImages();
-        }
+        //if (rightController.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool bButton) && bButton)
+        //{
+        //    CompareImages();
+        //}
     }
 
     private void ToggleDrawingMode()
