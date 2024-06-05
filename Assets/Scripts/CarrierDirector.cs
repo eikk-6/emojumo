@@ -24,7 +24,7 @@ public class CarrierDirector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("path"))
+        if (other.CompareTag("c_path"))
         { // Path 에 도달할 경우
             if (other.gameObject.Equals(PatrolPath[currentPath].gameObject))
             {
