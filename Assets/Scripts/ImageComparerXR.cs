@@ -2,60 +2,124 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
-public class ImageComparer : MonoBehaviour
+public class ImageComparerXR : MonoBehaviour
 {
-    public RawImage userDrawnImage; // 유저가 그린 이미지
-    public Texture2D referenceTexture; // 비교할 대상 이미지
-    public Button compareButton;
+    public RawImage userDrawnImage;
+    public Texture2D referenceTexture;
     public Text resultText;
-    public RawImage overlayImage; // 반투명하게 덮을 RawImage
+    public RawImage overlayImage;
+    public GameObject drawingCanvas; // 그림 그리기 위한 캔버스
 
     [Range(1, 1000)]
-    public int sampleSize = 500; // 샘플링할 픽셀 수
+    public int sampleSize = 500;
     [Range(0, 10)]
-    public int neighborhoodSize = 1; // 비교할 범위
+    public int neighborhoodSize = 1;
+
+    private bool isDrawingMode = false;
+    private XRController leftController;
+    private XRController rightController;
+    private Texture2D drawingTexture;
 
     void Start()
     {
-        compareButton.onClick.AddListener(CompareImages);
+        leftController = FindController(XRNode.LeftHand);
+        rightController = FindController(XRNode.RightHand);
 
-        // OverlayImage 설정
         if (overlayImage != null && referenceTexture != null)
         {
             overlayImage.texture = referenceTexture;
-            overlayImage.color = new Color(1f, 1f, 1f, 0.5f); // 반투명 설정
+            overlayImage.color = new Color(1f, 1f, 1f, 0.5f);
+        }
+
+        drawingTexture = new Texture2D((int)userDrawnImage.rectTransform.rect.width, (int)userDrawnImage.rectTransform.rect.height, TextureFormat.RGBA32, false);
+        userDrawnImage.texture = drawingTexture;
+    }
+
+    void Update()
+    {
+        HandleInput();
+    }
+
+    private XRController FindController(XRNode hand)
+    {
+        foreach (var controller in FindObjectsOfType<XRController>())
+        {
+            if (controller.controllerNode == hand)
+            {
+                return controller;
+            }
+        }
+        return null;
+    }
+
+    private void HandleInput()
+    {
+        if (leftController.inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool yButton) && yButton)
+        {
+            ToggleDrawingMode();
+        }
+
+        if (isDrawingMode)
+        {
+            DrawOnCanvas();
+        }
+
+        if (rightController.inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool bButton) && bButton)
+        {
+            CompareImages();
+        }
+    }
+
+    private void ToggleDrawingMode()
+    {
+        isDrawingMode = !isDrawingMode;
+        drawingCanvas.SetActive(isDrawingMode);
+    }
+
+    private void DrawOnCanvas()
+    {
+        // Raycast from the controller to detect the canvas
+        Ray ray = new Ray(rightController.transform.position, rightController.transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            if (hit.transform == userDrawnImage.transform)
+            {
+                Vector2 localPoint;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(userDrawnImage.rectTransform, hit.point, null, out localPoint);
+
+                int x = Mathf.RoundToInt(localPoint.x + userDrawnImage.rectTransform.rect.width / 2);
+                int y = Mathf.RoundToInt(localPoint.y + userDrawnImage.rectTransform.rect.height / 2);
+
+                drawingTexture.SetPixel(x, y, Color.black);
+                drawingTexture.Apply();
+            }
         }
     }
 
     public void CompareImages()
     {
-        if (userDrawnImage == null)
+        if (userDrawnImage == null || referenceTexture == null)
         {
-            resultText.text = "UserDrawnImage가 설정되지 않았습니다.";
-            return;
-        }
-        if (referenceTexture == null)
-        {
-            resultText.text = "ReferenceTexture가 설정되지 않았습니다.";
+            resultText.text = "이미지가 설정되지 않았습니다.";
             return;
         }
 
         Texture2D userTexture = userDrawnImage.texture as Texture2D;
-
         if (userTexture == null)
         {
             resultText.text = "UserDrawnImage의 텍스처가 유효하지 않습니다.";
             return;
         }
 
-        // 두 이미지를 같은 크기로 리사이즈
         int targetWidth = referenceTexture.width;
         int targetHeight = referenceTexture.height;
 
         Texture2D resizedUserTexture = ResizeTexture(userTexture, targetWidth, targetHeight);
-
-        float similarity = CalculateSimilarity(resizedUserTexture, referenceTexture, sampleSize);
+        float similarity = CalculateSimilarity(resizedUserTexture, referenceTexture);
         resultText.text = "유사도: " + (similarity * 100f).ToString("F2") + "%";
     }
 
@@ -79,7 +143,7 @@ public class ImageComparer : MonoBehaviour
         return result;
     }
 
-    private float CalculateSimilarity(Texture2D tex1, Texture2D tex2,int sampleSize)
+    private float CalculateSimilarity(Texture2D tex1, Texture2D tex2)
     {
         List<Vector2Int> paintedPixels1 = GetPaintedPixels(tex1);
         List<Vector2Int> paintedPixels2 = GetPaintedPixels(tex2);
@@ -103,7 +167,7 @@ public class ImageComparer : MonoBehaviour
             }
         }
 
-        return (float)similarCount / sampleSize;
+        return (float)similarCount / samples;
     }
 
     private bool PositionsAreSimilar(Vector2Int pos1, Texture2D tex1, Texture2D tex2)
@@ -142,7 +206,7 @@ public class ImageComparer : MonoBehaviour
             for (int x = 0; x < texture.width; x++)
             {
                 Color pixelColor = texture.GetPixel(x, y);
-                if (pixelColor.a != 0 && pixelColor.r == 0 && pixelColor.g == 0 && pixelColor.b == 0) // 검정색 픽셀을 확인
+                if (pixelColor.a != 0 && pixelColor.r == 0 && pixelColor.g == 0 && pixelColor.b == 0)
                 {
                     paintedPixels.Add(new Vector2Int(x, y));
                 }
