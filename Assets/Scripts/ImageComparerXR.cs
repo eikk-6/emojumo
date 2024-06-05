@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
+using CommonUsages = UnityEngine.XR.CommonUsages;
 
 public class ImageComparerXR : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class ImageComparerXR : MonoBehaviour
     public Texture2D referenceTexture;
     public Text resultText;
     public RawImage overlayImage;
-    public GameObject drawingCanvas; // 그림 그리기 위한 캔버스
+    public GameObject drawingCanvas;
 
     [Range(1, 1000)]
     public int sampleSize = 500;
