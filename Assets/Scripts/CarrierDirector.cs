@@ -8,6 +8,8 @@ public class CarrierDirector : MonoBehaviour
     public List<Transform> PatrolPath = new List<Transform>(); // Path 리스트
     private NavMeshAgent NMA; // Nav Mesh Agent
     private int currentPath = 0; // 현재 순찰 좌표 (PatrolPath)
+    public GameObject reward;
+    public Transform parent;
 
     private void Start()
     {
@@ -30,6 +32,19 @@ public class CarrierDirector : MonoBehaviour
             {
                 StartCoroutine(SetCurrentPath());
             }
+        }
+
+        else if (other.CompareTag("q_clear"))
+        {
+            // 충돌한 오브젝트를 비활성화
+            this.gameObject.SetActive(false);
+
+            // 충돌한 오브젝트의 위치와 회전을 가져옴
+            Vector3 spawnPosition = other.transform.position;
+            Quaternion spawnRotation = other.transform.rotation;
+
+            // 프리팹을 해당 위치에 생성
+            Instantiate(reward, spawnPosition, spawnRotation, parent);
         }
     }
 

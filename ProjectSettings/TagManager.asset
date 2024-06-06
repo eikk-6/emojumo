@@ -11,6 +11,7 @@ TagManager:
   - Animal
   - c_path
   - ball
+  - q_clear
   layers:
   - Default
   - TransparentFX
