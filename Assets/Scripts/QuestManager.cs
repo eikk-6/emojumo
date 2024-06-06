@@ -3,21 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using System;
+using UnityEngine.Events;
 
 public class QuestManager : MonoBehaviour
 {
     public GameObject horse;
+    public GameObject button;
+    public UnityEvent onPress;
+    public UnityEvent onRelease;
+    GameObject presser;
+    bool isPressed;
 
     void Start()
     {
+        isPressed = false;
         horse.SetActive(false);
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("GameController"))
+        if (!isPressed)
         {
-            Debug.Log("HIT");
-            horse.SetActive(true);
+            presser = other.gameObject;
+            onPress.Invoke();
+            isPressed = true;
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == presser)
+        {
+            onRelease.Invoke();
+            isPressed = false;
+        }
+    }
+
+    public void QuestStart()
+    {
+        horse.SetActive(true);
     }
 }
