@@ -10,6 +10,7 @@ TagManager:
   - LeftHand
   - Animal
   - c_path
+  - ball
   layers:
   - Default
   - TransparentFX
