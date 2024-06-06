@@ -10,7 +10,9 @@ public class onVisualbel : MonoBehaviour
     
     [SerializeField] GameObject staff;
     [SerializeField] DrawingManager drawingManager;
-   
+
+    public bool isGrabbed = false;
+
     InputDevice left;
     InputDevice right;
     private bool onDraw = false;
@@ -93,7 +95,10 @@ public class onVisualbel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ButtonInput();
+        if (isGrabbed)
+        {
+            ButtonInput();
+        }
     }
 
     void ButtonInput()
@@ -349,5 +354,15 @@ public class onVisualbel : MonoBehaviour
             }
         }
         return paintedPixels;
+    }
+
+    public void onStaff()
+    {
+        isGrabbed = true;
+    }
+    public void offStaff()
+    {
+        isGrabbed = false;
+        TriggerPressed();
     }
 }

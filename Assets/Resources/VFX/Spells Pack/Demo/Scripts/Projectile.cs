@@ -33,7 +33,15 @@ namespace ZakhanSpellsPack
                     if(VFXname == "Projectile_Fire(Clone)")
                          enemyHealth.TakeDamage(30);
                     else if (VFXname == "Projectile_Fire_3(Clone)")
-                        enemyHealth.TakeDamage(60);
+                        enemyHealth.TakeDamage(70);
+                    else if (VFXname == "Projectile_Ice_3(Clone)")
+                        enemyHealth.TakeDamage(70);
+                    else if (VFXname == "Projectile_Storm_2(Clone)")
+                        enemyHealth.TakeDamage(70);
+                    else if (VFXname == "Projectile_Dark_4(Clone)")
+                        enemyHealth.TakeDamage(70);
+                    else if (VFXname == "Projectile_Light_2(Clone)")
+                        enemyHealth.TakeDamage(70);
 
                 }
             }
