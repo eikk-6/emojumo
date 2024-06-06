@@ -18,7 +18,7 @@ public class EnemyController : MonoBehaviour
     public float sightDistance;                 // 시야 거리
 
     public LayerMask playerLayer;               // 플레이어 레이어
-
+    public LayerMask horseLayer;
 
     private Animator anim;
     private BoxCollider boxCollider;
@@ -104,6 +104,20 @@ public class EnemyController : MonoBehaviour
             //TakeDamage();
             yield return new WaitForSeconds(attackCooldown);
         }
+        if (HorseInSight())
+        {
+            anim.SetTrigger("Attack");
+
+            // 마차에 데미지 주기
+            CartHealth cartHealth = FindObjectOfType<CartHealth>();
+            if (cartHealth != null)
+            {
+                cartHealth.TakeDamage(attackDamage);
+            }
+
+            yield return new WaitForSeconds(attackCooldown);
+        }
+
         yield return null;
     }
 
@@ -120,6 +134,21 @@ public class EnemyController : MonoBehaviour
         //RaycastHit hit;
         //Physics.BoxCast(transform.position, size, transform.position, out hit, transform.rotation, playerLayer);
         bool isHit = Physics.CheckBox(transform.position, attackRange, transform.rotation, playerLayer);
+
+        if (isHit)
+        {
+            //playerHealth = hit.transform.GetComponent<Health>();
+            Debug.Log("발견");
+        }
+
+        return isHit;
+    }
+    private bool HorseInSight()
+    {
+        //Vector3 size = new Vector3(boxCollider.bounds.size.x * attackRange.x, boxCollider.bounds.size.y * attackRange.y, boxCollider.bounds.size.z * attackRange.z);
+        //RaycastHit hit;
+        //Physics.BoxCast(transform.position, size, transform.position, out hit, transform.rotation, playerLayer);
+        bool isHit = Physics.CheckBox(transform.position, attackRange, transform.rotation, horseLayer);
 
         if (isHit)
         {
