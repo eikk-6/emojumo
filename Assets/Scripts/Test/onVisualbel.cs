@@ -32,30 +32,41 @@ public class onVisualbel : MonoBehaviour
     [SerializeField]
     private GameObject Set;
     [SerializeField]
-        private GameObject FiringVFX1;
-        [SerializeField]
-        private GameObject FiringVFX2;
-        [SerializeField]
-        private GameObject FiringVFX3;
-        [SerializeField]
-        private GameObject FiringVFX4;
-        [SerializeField]
-        private GameObject FiringVFX;
+    private GameObject FiringVFX1;
+    [SerializeField]
+    private GameObject FiringVFX2;
+    [SerializeField]
+    private GameObject FiringVFX3;
+    [SerializeField]
+    private GameObject FiringVFX4;
+    [SerializeField]
+    private GameObject FiringVFX;
 
 
     public Texture2D referenceTexture1;
     public Texture2D referenceTexture2;
     public Texture2D referenceTexture3;
     public Texture2D referenceTexture4;
+    public Texture2D referenceTexture5;
+
     public Texture2D referenceTexture;
 
     [SerializeField]
     private GameObject ChargePoint;
-   
+    [SerializeField]
+    private GameObject ChargePoint1;
+    [SerializeField]
+    private GameObject ChargePoint2;
+    [SerializeField]
+    private GameObject ChargePoint3;
+    [SerializeField]
+    private GameObject ChargePoint4;
+
     private float stayTime = 0.0f;
     public float requiredTime = 5.0f;
     public float similarity;
-    public int ran; 
+    public int ran = 4;
+    public int count;
     private bool isTriggerEnabled = true;
    
     GameObject chargingVFXInstance;
@@ -64,11 +75,10 @@ public class onVisualbel : MonoBehaviour
    
     public RawImage userDrawnImage; // 유저가 그린 이미지
      // 비교할 대상 이미지
-    public Button compareButton;
     public Text resultText;
     public RawImage overlayImage; // 반투명하게 덮을 RawImage
 
-    public Texture2D texture;
+    private Texture2D texture;
    
     [Range(1, 1000)]
     public int sampleSize = 500; // 샘플링할 픽셀 수
@@ -111,21 +121,33 @@ public class onVisualbel : MonoBehaviour
         right.TryGetFeatureValue(CommonUsages.primaryButton, out isButtonA);
         if (isButtonA && !prevButtonA)
         {
-            
+            if (overlayImage != null && referenceTexture != null)
+            {
+                overlayImage.texture = referenceTexture = ran-- == 5 ? referenceTexture4 : (ran == 4 ? referenceTexture3 : (ran == 3 ? referenceTexture3 : (ran == 2 ? referenceTexture2 : referenceTexture1)));
+                if (ran < 1)
+                    ran = 1;
+                overlayImage.color = new Color(1f, 1f, 1f, 0.5f); // 반투명 설정
+            }
         }
         prevButtonA = isButtonA;
 
         right.TryGetFeatureValue(CommonUsages.secondaryButton, out isButtonB);
         if (isButtonB && !prevButtonB)
         {
-            
+            if (overlayImage != null && referenceTexture != null)
+            {
+                overlayImage.texture = referenceTexture = ran++ == 1 ? referenceTexture1 : (ran == 2 ? referenceTexture2 : (ran == 3 ? referenceTexture3 : (ran == 4 ? referenceTexture4 : referenceTexture5)));
+                if (ran > 5)
+                    ran = 4;
+                overlayImage.color = new Color(1f, 1f, 1f, 0.5f); // 반투명 설정
+            }
         }
         prevButtonB = isButtonB;
 
         left.TryGetFeatureValue(CommonUsages.primaryButton, out isButtonX);
         if (isButtonX && !prevButtonX)
         {
-            CompareImages();
+            
         }
         prevButtonX = isButtonX;
 
@@ -144,6 +166,8 @@ public class onVisualbel : MonoBehaviour
         left.TryGetFeatureValue(CommonUsages.triggerButton, out isLTriggerPressed);
         if (isLTriggerPressed && !prevButtonLT)
         {
+            CompareImages();
+            new WaitForSeconds(1.5f);
             MagicShot();
         }
         prevButtonLT = isLTriggerPressed;
@@ -163,62 +187,81 @@ public class onVisualbel : MonoBehaviour
     }
     void MagicShot()
     {
-        
-        if (onDraw && similarity > 0.5)
+        count = similarity > 0.75 ? 3 : (similarity > 0.5 ? 2 : (similarity > 0.25 ? 1 : 0));
+        if (count > 0 && onDraw)
         {
-            Magicshot2();
+            Magicshot2(count);
             onDraw = false;
             similarity = 0;
         }
         drawingManager.ClearCanvas();
     }
-    void Magicshot2()
+    void Magicshot2(int count)
     {
         switch (ran)
         {
-            case 0:
+            case 1:
                 Set = FiringVFX;
                 break;
-            case 1:
+            case 2:
                 Set = FiringVFX1;
                 break;
-            case 2:
+            case 3:
                 Set = FiringVFX2;
                 break;
-            case 3:
+            case 4:
                 Set = FiringVFX3;
                 break;
-            case 4:
+            case 5:
                 Set = FiringVFX4;
                 break;
         }
-        if (isTriggerEnabled)
+        
+        while (count > 0)
         {
-            Debug.DrawRay(ChargePoint.transform.position, ChargePoint.transform.forward * 30f, Color.red, 1f);
-
-            // isCharging 상태를 유지
-            // Destroy the existing charging VFX
-            if (chargingVFXInstance != null)
+            switch (count)
             {
-                Destroy(chargingVFXInstance);
-                chargingVFXInstance = null;
+                case 1:
+                    ChargePoint = ChargePoint1;
+                    break;
+                case 2:
+                    ChargePoint = ChargePoint2;
+                    break;
+                case 3:
+                    ChargePoint = ChargePoint3;
+                    break;
+                case 4:
+                    ChargePoint = ChargePoint4;
+                    break;
             }
-
-            // Instantiate the firing VFX at the charge point
-            GameObject firingVFXInstance = Instantiate(Set, ChargePoint.transform.position, ChargePoint.transform.rotation);
-
-            // Set the velocity of the firing VFX to move it forward
-            Rigidbody rb = firingVFXInstance.GetComponent<Rigidbody>();
-            if (rb != null)
+            if (isTriggerEnabled)
             {
-                rb.velocity = 10f * ChargePoint.transform.forward;
+                Debug.DrawRay(ChargePoint.transform.position, ChargePoint.transform.forward * 30f, Color.red, 1f);
+
+                // isCharging 상태를 유지
+                // Destroy the existing charging VFX
+                if (chargingVFXInstance != null)
+                {
+                    Destroy(chargingVFXInstance);
+                    chargingVFXInstance = null;
+                }
+
+                // Instantiate the firing VFX at the charge point
+                GameObject firingVFXInstance = Instantiate(Set, ChargePoint.transform.position, ChargePoint.transform.rotation);
+
+                // Set the velocity of the firing VFX to move it forward
+                Rigidbody rb = firingVFXInstance.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.velocity = 10f * ChargePoint.transform.forward;
+                }
+
+                // Destroy the firing VFX after 5 seconds
+                Destroy(firingVFXInstance, 5f);
+
+                // Disable trigger input for a short duration
             }
-
-            // Destroy the firing VFX after 5 seconds
-            Destroy(firingVFXInstance, 5f);
-
-            // Disable trigger input for a short duration
-            StartCoroutine(DisableInputForSeconds(3.0f));
+            count--;
         }
     }
 
@@ -260,7 +303,7 @@ public class onVisualbel : MonoBehaviour
         resultText.text = "유사도: " + (similarity * 100f).ToString("F2") + "%";
         onDraw = true;
 
-        ran = Random.Range(0, 5);
+        
 
     }
 
@@ -308,7 +351,7 @@ public class onVisualbel : MonoBehaviour
             }
         }
 
-        return (float)similarCount / sampleSize;
+        return (float)similarCount / samples;
     }
 
     private bool PositionsAreSimilar(Vector2Int pos1, Texture2D tex1, Texture2D tex2)
