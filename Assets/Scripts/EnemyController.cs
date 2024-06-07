@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
     private EnemyHealth enemyHealth;
     public int attackDamage;                    // 데미지
     public float attackCooldown;                // 데미지 쿨타임
+    private bool isAttack = false;
 
     public Vector3 attackRange;                 // 공격 범위
     public float attackDistance;                // 공격 거리
@@ -40,6 +41,7 @@ public class EnemyController : MonoBehaviour
             centrePoint = gameObject.transform.parent.gameObject.transform;
         }
 
+        anim.SetBool("Walk", true);
     }
 
     private void Update()
@@ -48,25 +50,36 @@ public class EnemyController : MonoBehaviour
         RandomMove();
     }
 
-    private void RandomMove()
+    private void RandomMove()                                                       // 랜덤한 위치로 이동
     {
         if(agent == null)
         {
             return;
         }
 
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if(!PlayerInSight())
         {
-            Vector3 point;
-            if (RandomPoint(centrePoint.position, moveRange, out point))
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f); 
-                agent.SetDestination(point);
+                Vector3 point;
+                if (RandomPoint(centrePoint.position, moveRange, out point))
+                {
+                    Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
+                    agent.SetDestination(point);
+                }
             }
+        }
+        else if (HorseInSight())
+        {
+            agent.SetDestination(CartHealth.instance.gameObject.transform.position);
+        }
+        else if(PlayerInSight())
+        {
+            agent.SetDestination(PlayerController.instance.gameObject.transform.position);
         }
     }
 
-    private bool RandomPoint(Vector3 center, float range, out Vector3 result)
+    private bool RandomPoint(Vector3 center, float range, out Vector3 result)           // 랜덤한 위치 지정
     {
 
         Vector3 randomPoint = center + Random.insideUnitSphere * range;
@@ -98,13 +111,20 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator Attack()
     {
-        if (PlayerInSight())
+        if(isAttack)
+        {
+            yield break;
+        }
+
+        isAttack = true;
+
+        if (PlayerInAttackSight())
         {
             anim.SetTrigger("Attack");
-            //TakeDamage();
+            PlayerController.instance.TakeDamage(attackDamage);
             yield return new WaitForSeconds(attackCooldown);
         }
-        if (HorseInSight())
+        if (HorseInAttackSight())
         {
             anim.SetTrigger("Attack");
 
@@ -117,6 +137,13 @@ public class EnemyController : MonoBehaviour
 
             yield return new WaitForSeconds(attackCooldown);
         }
+        else
+        {
+            agent.isStopped = false;
+            anim.SetBool("Walk", true);
+        }
+
+        isAttack = false;
 
         yield return null;
     }
@@ -128,33 +155,45 @@ public class EnemyController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private bool PlayerInSight()
+    private bool PlayerInAttackSight()
     {
-        //Vector3 size = new Vector3(boxCollider.bounds.size.x * attackRange.x, boxCollider.bounds.size.y * attackRange.y, boxCollider.bounds.size.z * attackRange.z);
-        //RaycastHit hit;
-        //Physics.BoxCast(transform.position, size, transform.position, out hit, transform.rotation, playerLayer);
         bool isHit = Physics.CheckBox(transform.position, attackRange, transform.rotation, playerLayer);
-
         if (isHit)
         {
+            agent.isStopped = true;
+            anim.SetBool("Walk", false);
             //playerHealth = hit.transform.GetComponent<Health>();
             Debug.Log("발견");
         }
 
         return isHit;
     }
-    private bool HorseInSight()
+    private bool HorseInAttackSight()
     {
-        //Vector3 size = new Vector3(boxCollider.bounds.size.x * attackRange.x, boxCollider.bounds.size.y * attackRange.y, boxCollider.bounds.size.z * attackRange.z);
-        //RaycastHit hit;
-        //Physics.BoxCast(transform.position, size, transform.position, out hit, transform.rotation, playerLayer);
         bool isHit = Physics.CheckBox(transform.position, attackRange, transform.rotation, horseLayer);
 
         if (isHit)
         {
-            //playerHealth = hit.transform.GetComponent<Health>();
+            agent.isStopped = true;
+            anim.SetBool("Walk", false);
             Debug.Log("발견");
         }
+
+        return isHit;
+    }
+
+    private bool PlayerInSight()
+    {
+        Vector3 sightSize = new Vector3(boxCollider.bounds.size.x * sightRange.x, boxCollider.bounds.size.y * sightRange.y, boxCollider.bounds.size.z * sightRange.z);
+        bool isHit = Physics.CheckBox(transform.position + transform.forward * sightDistance, sightSize / 2f, transform.rotation, playerLayer);
+
+        return isHit;
+    }
+
+    private bool HorseInSight()
+    {
+        Vector3 sightSize = new Vector3(boxCollider.bounds.size.x * sightRange.x, boxCollider.bounds.size.y * sightRange.y, boxCollider.bounds.size.z * sightRange.z);
+        bool isHit = Physics.CheckBox(transform.position + transform.forward * sightDistance, sightSize / 2f, transform.rotation, horseLayer);
 
         return isHit;
     }
@@ -168,13 +207,8 @@ public class EnemyController : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
         Gizmos.DrawWireCube(Vector3.zero, attackRange * 2);
-        //Gizmos.DrawWireCube(transform.position, new Vector3(attackRange.x, attackRange.y, attackRange.z));
 
         Gizmos.matrix = Matrix4x4.identity;
-        // 공격 범위
-        //Vector3 attackSize = new Vector3(boxCollider.bounds.size.x * attackRange.x, boxCollider.bounds.size.y * attackRange.y, boxCollider.bounds.size.z * attackRange.z);
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireCube(boxCollider.bounds.center + transform.forward * attackRange.x * transform.localScale.x * attackDistance, attackSize);
 
 
         // 시야 범위

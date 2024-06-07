@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082432}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigJaw Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082434}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigJaw DownGizmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 831091471014987303}
   - component: {fileID: 946874662221756161}
   - component: {fileID: -3656163852839475807}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Snow Bomb
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -184,8 +184,11 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 2147483648
+  horseLayer:
+    serializedVersion: 2
+    m_Bits: 1073741824
   agent: {fileID: 0}
-  moveRange: 15
+  moveRange: 20
   centrePoint: {fileID: 0}
 --- !u!114 &946874662221756161
 MonoBehaviour:
@@ -232,7 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1192506419735082444}
   - component: {fileID: 1192506419731604672}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Snow Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,7 +329,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082446}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigLArm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +361,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082448}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigLArm2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -389,7 +392,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082450}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigRArm1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -421,7 +424,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082452}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigRArm2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -452,7 +455,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082454}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigLArm1Gizmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -483,7 +486,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082456}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigLArm2Gizmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -514,7 +517,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082458}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigRArm1Gizmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -545,7 +548,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082460}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigRArm2Gizmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -576,7 +579,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082474}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -607,7 +610,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082476}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigFuse1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -639,7 +642,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082478}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigFuse1Gizmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -670,7 +673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082480}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigFuse2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -702,7 +705,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082482}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigFuse2Gizmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -733,7 +736,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082484}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigFuse3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -765,7 +768,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082486}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigFuse3Gizmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -796,7 +799,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082488}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigFuse4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -828,7 +831,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082490}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigFuse4Gizmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -859,7 +862,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082492}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigHub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,7 +897,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1192506419735082494}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RigHubGizmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -923,6 +926,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1192506419735082488}
     m_Modifications:
+    - target: {fileID: 8942712806584449340, guid: 0813c37b11a5f1341a6ab6674de69d5a, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8942712806798699811, guid: 0813c37b11a5f1341a6ab6674de69d5a, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -970,6 +977,10 @@ PrefabInstance:
     - target: {fileID: 8942712806798699870, guid: 0813c37b11a5f1341a6ab6674de69d5a, type: 3}
       propertyPath: m_Name
       value: FX Spark
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942712806798699870, guid: 0813c37b11a5f1341a6ab6674de69d5a, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0813c37b11a5f1341a6ab6674de69d5a, type: 3}

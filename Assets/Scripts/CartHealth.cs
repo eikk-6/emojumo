@@ -2,8 +2,14 @@ using UnityEngine;
 
 public class CartHealth : MonoBehaviour
 {
+    public static CartHealth instance;
+
     public int maxHealth = 100; // 최대 체력
     private int currentHealth;
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
