@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -33,5 +34,11 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         Debug.Log("Die!");
+        GameRestart();
+    }
+
+    public void GameRestart()
+    {
+        SceneManager.LoadScene("Map");
     }
 }

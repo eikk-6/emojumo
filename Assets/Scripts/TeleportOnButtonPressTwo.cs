@@ -14,7 +14,7 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     public bool isGrabbed = false;
 
-    private StackStaffSound sound;
+    private StaffSound sound;
 
     [SerializeField]
     private GameObject effectPrefab_001;
@@ -257,7 +257,7 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
         shootpoint = GameObject.Find("MagicShootPoint").GetComponent<Transform>();
 
-        sound = GetComponent<StackStaffSound>();
+        sound = GetComponent<StaffSound>();
     }
 
     void Update()
@@ -395,33 +395,33 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
     {
         if(magicID <=023)
         {
-            sound.state = StackStaffSound.SoundState.Arance;
+            sound.stackState = StaffSound.StackSoundState.Arance;
         }
         else if(magicID >= 030 && magicID <= 111)
         {
-            sound.state = StackStaffSound.SoundState.Positive;
+            sound.stackState = StaffSound.StackSoundState.Positive;
         }
         else if (magicID >= 112 && magicID <= 201)
         {
-            sound.state = StackStaffSound.SoundState.Fire;
+            sound.stackState = StaffSound.StackSoundState.Fire;
         }
         else if (magicID >= 202 && magicID <= 230)
         {
-            sound.state = StackStaffSound.SoundState.Ice;
+            sound.stackState = StaffSound.StackSoundState.Ice;
         }
         else if (magicID >= 231 && magicID <= 314)
         {
-            sound.state = StackStaffSound.SoundState.Lightning;
+            sound.stackState = StaffSound.StackSoundState.Lightning;
         }
         else if (magicID >= 320 && magicID <= 333)
         {
-            sound.state = StackStaffSound.SoundState.Nature;
+            sound.stackState = StaffSound.StackSoundState.Nature;
         }
         else
         {
             return;
         }
 
-        sound.PlaySound();
+        sound.StackPlaySound();
     }
 }

@@ -27,6 +27,13 @@ public class FireMagic : MonoBehaviour
     GameObject chargingVFXInstance;
     RaycastHit hit;
 
+    private StaffSound sound;
+
+    private void Start()
+    {
+        sound = GetComponent<StaffSound>();
+    }
+
     void Update()
     {
         if (isGrabbed)
@@ -65,6 +72,7 @@ public class FireMagic : MonoBehaviour
                 chargingVFXInstance = null;
             }
 
+            sound.PlaySound();
             // Instantiate the firing VFX at the charge point
             GameObject firingVFXInstance = Instantiate(FiringVFX, ChargePoint.transform.position, ChargePoint.transform.rotation);
 

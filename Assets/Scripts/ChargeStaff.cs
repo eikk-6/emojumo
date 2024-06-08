@@ -30,6 +30,13 @@ public class ChargeStaff : MonoBehaviour
     GameObject chargingVFXInstance;
     RaycastHit hit;
 
+    private StaffSound sound;
+
+    private void Start()
+    {
+        sound = GetComponent<StaffSound>();
+    }
+
     void Update()
     {
         if (isGrabbed)
@@ -64,6 +71,10 @@ public class ChargeStaff : MonoBehaviour
         {
             stayTime += Time.deltaTime;
             left.SendHapticImpulse(1, 0.4f, 0.5f);
+
+            sound.chargeState = StaffSound.ChargeSoundState.Charge;
+            sound.ChargePlaySound();
+
             if (stayTime >= requiredTime)
             {
                 isCharging = true;
@@ -103,6 +114,9 @@ public class ChargeStaff : MonoBehaviour
                 Destroy(chargingVFXInstance);
                 chargingVFXInstance = null;
             }
+
+            sound.chargeState = StaffSound.ChargeSoundState.Projectile;
+            sound.ChargePlaySound();
 
             // Instantiate the firing VFX at the charge point
             GameObject firingVFXInstance = Instantiate(FiringVFX, ChargePoint.transform.position, ChargePoint.transform.rotation);

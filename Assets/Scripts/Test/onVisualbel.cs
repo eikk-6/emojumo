@@ -7,7 +7,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class onVisualbel : MonoBehaviour
 {
-    
+    private StaffSound sound;
+
     [SerializeField] GameObject staff;
     [SerializeField] DrawingManager drawingManager;
 
@@ -88,6 +89,7 @@ public class onVisualbel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        sound = GetComponent<StaffSound>();
         prevButtonA = false;
         prevButtonB = false;
         prevButtonX = false;
@@ -202,18 +204,23 @@ public class onVisualbel : MonoBehaviour
         {
             case 1:
                 Set = FiringVFX;
+                sound.paintState = StaffSound.PaintSoundState.Ice;
                 break;
             case 2:
                 Set = FiringVFX1;
+                sound.paintState = StaffSound.PaintSoundState.Stome;
                 break;
             case 3:
                 Set = FiringVFX2;
+                sound.paintState = StaffSound.PaintSoundState.Dark;
                 break;
             case 4:
                 Set = FiringVFX3;
+                sound.paintState = StaffSound.PaintSoundState.Light;
                 break;
             case 5:
                 Set = FiringVFX4;
+                sound.paintState = StaffSound.PaintSoundState.Fire;
                 break;
         }
         
@@ -245,6 +252,8 @@ public class onVisualbel : MonoBehaviour
                     Destroy(chargingVFXInstance);
                     chargingVFXInstance = null;
                 }
+
+                sound.PaintPlaySound();
 
                 // Instantiate the firing VFX at the charge point
                 GameObject firingVFXInstance = Instantiate(Set, ChargePoint.transform.position, ChargePoint.transform.rotation);
