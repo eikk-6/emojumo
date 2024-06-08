@@ -606,10 +606,8 @@ MonoBehaviour:
   ran: 4
   count: 0
   userDrawnImage: {fileID: 3562938583839367315}
-  compareButton: {fileID: 0}
   resultText: {fileID: 1291750245}
   overlayImage: {fileID: 603727315}
-  texture: {fileID: 0}
   sampleSize: 40
   neighborhoodSize: 1
 --- !u!1001 &854009061
