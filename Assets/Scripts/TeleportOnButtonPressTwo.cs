@@ -14,7 +14,7 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
     public bool isGrabbed = false;
 
-
+    private StackStaffSound sound;
 
     [SerializeField]
     private GameObject effectPrefab_001;
@@ -256,6 +256,8 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
 
 
         shootpoint = GameObject.Find("MagicShootPoint").GetComponent<Transform>();
+
+        sound = GetComponent<StackStaffSound>();
     }
 
     void Update()
@@ -264,7 +266,6 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         {
             ButtonInput();
         }
-
 
     }
 
@@ -347,7 +348,7 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
                 {
                     VFX = Instantiate(effectPrefabs[magicID], hit.point + effectPrefabs[magicID].transform.position, effectPrefabs[magicID].transform.rotation);
 
-
+                    MasicSound();
 
                     Destroy(VFX, VFX.GetComponent<ParticleSystem>().main.duration);
                     nextFire = VFX.GetComponent<ParticleSystem>().main.duration;
@@ -390,4 +391,37 @@ public class TeleportOnButtonPressTwo : MonoBehaviour
         isGrabbed = false;
     }
 
+    public void MasicSound()
+    {
+        if(magicID <=023)
+        {
+            sound.state = StackStaffSound.SoundState.Arance;
+        }
+        else if(magicID >= 030 && magicID <= 111)
+        {
+            sound.state = StackStaffSound.SoundState.Positive;
+        }
+        else if (magicID >= 112 && magicID <= 201)
+        {
+            sound.state = StackStaffSound.SoundState.Fire;
+        }
+        else if (magicID >= 202 && magicID <= 230)
+        {
+            sound.state = StackStaffSound.SoundState.Ice;
+        }
+        else if (magicID >= 231 && magicID <= 314)
+        {
+            sound.state = StackStaffSound.SoundState.Lightning;
+        }
+        else if (magicID >= 320 && magicID <= 333)
+        {
+            sound.state = StackStaffSound.SoundState.Nature;
+        }
+        else
+        {
+            return;
+        }
+
+        sound.PlaySound();
+    }
 }

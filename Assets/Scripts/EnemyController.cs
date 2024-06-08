@@ -57,7 +57,7 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-        if(!PlayerInSight())
+        if(!PlayerInSight() && !HorseInSight())
         {
             if (agent.remainingDistance <= agent.stoppingDistance)
             {

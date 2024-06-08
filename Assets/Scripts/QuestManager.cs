@@ -11,6 +11,7 @@ public class QuestManager : MonoBehaviour
     public GameObject button;
     public UnityEvent onPress;
     public UnityEvent onRelease;
+    public BgmChange bgm;
     GameObject presser;
     bool isPressed;
 
@@ -41,5 +42,6 @@ public class QuestManager : MonoBehaviour
     public void QuestStart()
     {
         horse.SetActive(true);
+        bgm.QuestSound();
     }
 }
