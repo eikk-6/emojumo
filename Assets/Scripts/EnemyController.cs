@@ -101,11 +101,14 @@ public class EnemyController : MonoBehaviour
 
     public void EnemyDamage()              // 적 데미지
     {
+        anim.Play("Idle", 0, 0);
+        anim.StopPlayback();
         anim.SetTrigger("Damage");
     }
 
     public void EnemyDie()                 // 적 사망
     {
+        enemyHealth.isDead = true;
         StartCoroutine(Die());
     }
 

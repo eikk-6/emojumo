@@ -4,6 +4,7 @@ public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 100;
     private int health; // 피 설정
+    public bool isDead = false;
 
     private EnemyController enemyController;
 
@@ -16,11 +17,14 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int damage) // 데미지 받기
     {
-        health -= damage;
-        enemyController.EnemyDamage();
-        if (health <= 0)
+        if (!isDead)
         {
-            enemyController.EnemyDie();
+            health -= damage;
+            enemyController.EnemyDamage();
+            if (health <= 0)
+            {
+                enemyController.EnemyDie();
+            }
         }
     }
 }
